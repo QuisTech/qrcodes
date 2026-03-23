@@ -1,0 +1,5 @@
+{
+  "name": "APC Event Badge System",
+  "description": "QR code badge generation and scanning system for APC Convention 2026.",
+  "requestFramePermissions": ["camera"]
+}
