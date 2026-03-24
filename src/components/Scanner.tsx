@@ -160,7 +160,7 @@ export default function Scanner() {
               )}
             </div>
             
-            <h2 className={`text-xl sm:text-4xl md:text-5xl lg:text-6xl font-serif mb-4 tracking-tight break-words ${
+            <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif mb-4 tracking-tighter break-words ${
               result.status === 'INVALID' ? 'text-rose-900' : isVIP ? 'text-white' : 'text-emerald-900'
             }`} style={{ fontFamily: isVIP ? '"Prata", serif' : 'inherit' }}>
               {result.status === 'INVALID' ? 'ACCESS DENIED' : isVIP ? 'AUTHENTICATED' : 'AUTHENTICATED'}
@@ -173,7 +173,7 @@ export default function Scanner() {
               <div className={`rounded-[2.5rem] p-10 mb-10 border transition-all duration-1000 ${
                 isVIP ? 'bg-white/5 border-white/10 shadow-[inner_0_2px_10px_rgba(255,255,255,0.05)]' : 'bg-zinc-50 border-zinc-100'
               }`}>
-                {!isVIP && <img src="/logo.png" alt="Logo" className="h-24 mx-auto mb-6 opacity-90 filter drop-shadow-md" />}
+                <img src="/logo.png" alt="Logo" className="h-24 mx-auto mb-6 opacity-90 filter drop-shadow-md" />
                 <p className={`font-black text-3xl uppercase tracking-widest ${isVIP ? 'text-amber-500 font-serif' : 'text-zinc-900'}`}>
                   {isVIP ? 'VIP GUEST' : 'Security Committee'}
                 </p>
