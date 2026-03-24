@@ -142,25 +142,25 @@ export default function Scanner() {
         <div className={`max-w-xl w-full rounded-[3.5rem] p-1 shadow-2xl animate-in zoom-in duration-700 relative z-10 ${
           isVIP ? 'bg-gradient-to-br from-amber-600 via-amber-400 to-amber-700' : 'bg-white'
         }`}>
-          <div className={`rounded-[3.4rem] p-12 text-center h-full w-full ${
+          <div className={`rounded-[3.4rem] p-6 sm:p-12 text-center h-full w-full ${
             isVIP ? 'bg-zinc-950/90 backdrop-blur-xl' : 'bg-white'
           }`}>
             <div className="flex justify-center mb-8">
               {result.status === 'VALID' ? (
-                <div className={`${isVIP ? 'bg-amber-950/50 border border-amber-500/30' : 'bg-emerald-100'} p-8 rounded-full relative group animate-in zoom-in spin-in-12 duration-1000`}>
-                  {isVIP ? <Crown className="w-24 h-24 text-amber-500 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]" /> : <CheckCircle2 className="w-24 h-24 text-emerald-600" />}
+                <div className={`${isVIP ? 'bg-amber-950/50 border border-amber-500/30' : 'bg-emerald-100'} p-6 sm:p-8 rounded-full relative group animate-in zoom-in spin-in-12 duration-1000`}>
+                  {isVIP ? <Crown className="w-16 h-16 sm:w-24 sm:h-24 text-amber-500 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]" /> : <CheckCircle2 className="w-16 h-16 sm:w-24 sm:h-24 text-emerald-600" />}
                   {isVIP && (
-                    <div className="absolute -top-1 -right-1 bg-amber-500 text-white text-[11px] font-black px-3 py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)]">VIP ACCESS</div>
+                    <div className="absolute -top-1 -right-1 bg-amber-500 text-white text-[9px] sm:text-[11px] font-black px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)] whitespace-nowrap">VIP ACCESS</div>
                   )}
                 </div>
               ) : (
-                <div className="bg-rose-100 p-8 rounded-full">
-                  <XCircle className="w-24 h-24 text-rose-600" />
+                <div className="bg-rose-100 p-6 sm:p-8 rounded-full">
+                  <XCircle className="w-16 h-16 sm:w-24 sm:h-24 text-rose-600" />
                 </div>
               )}
             </div>
             
-            <h2 className={`text-6xl font-serif mb-4 tracking-tighter ${
+            <h2 className={`text-3xl sm:text-5xl md:text-6xl font-serif mb-4 tracking-tighter break-words ${
               result.status === 'INVALID' ? 'text-rose-900' : isVIP ? 'text-white' : 'text-emerald-900'
             }`} style={{ fontFamily: isVIP ? '"Prata", serif' : 'inherit' }}>
               {result.status === 'INVALID' ? 'ACCESS DENIED' : isVIP ? 'AUTHENTICATED' : 'AUTHENTICATED'}
