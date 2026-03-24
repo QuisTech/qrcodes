@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import Generator from './components/Generator';
 import Scanner from './components/Scanner';
 import PrintAll from './components/PrintAll';
+import VIPPrint from './components/VIPPrint';
 
 export default function App() {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [view, setView] = useState<'generator' | 'scanner' | 'bulk'>('scanner');
+  const [view, setView] = useState<'generator' | 'scanner' | 'bulk' | 'vip-print'>('scanner');
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -24,6 +25,12 @@ export default function App() {
         {isAdmin ? (
           <>
             <button 
+              onClick={() => setView('scanner')} 
+              className={`px-4 py-2 rounded-xl transition-all font-bold ${view === 'scanner' ? 'bg-zinc-900 text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-100'}`}
+            >
+              Scanner
+            </button>
+            <button 
               onClick={() => setView('generator')} 
               className={`px-4 py-2 rounded-xl transition-all font-bold ${view === 'generator' ? 'bg-zinc-900 text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-100'}`}
             >
@@ -35,6 +42,12 @@ export default function App() {
             >
               Bulk Print (500)
             </button>
+            <button 
+              onClick={() => setView('vip-print')} 
+              className={`px-4 py-2 rounded-xl transition-all font-bold ${view === 'vip-print' ? 'bg-amber-600 text-white shadow-md' : 'text-amber-600 hover:bg-amber-50'}`}
+            >
+              VIP Print (250)
+            </button>
           </>
         ) : (
           <button 
@@ -45,7 +58,7 @@ export default function App() {
           </button>
         )}
       </nav>
-      {view === 'generator' ? <Generator /> : view === 'scanner' ? <Scanner /> : <PrintAll />}
+      {view === 'generator' ? <Generator /> : view === 'scanner' ? <Scanner /> : view === 'bulk' ? <PrintAll /> : <VIPPrint />}
     </div>
   );
 }

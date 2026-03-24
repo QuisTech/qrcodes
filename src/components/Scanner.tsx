@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { CheckCircle2, XCircle, Camera, Monitor, Expand, RefreshCw, AlertCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Camera, Monitor, Expand, RefreshCw, AlertCircle, Crown } from 'lucide-react';
 import accessCodes from '../data/access_codes.json';
+import vipCodes from '../data/vip_codes.json';
 
 export default function Scanner() {
-  const [result, setResult] = useState<{ status: 'VALID' | 'INVALID'; code?: string } | null>(null);
+  const [result, setResult] = useState<{ status: 'VALID' | 'INVALID'; code: string; type?: 'VIP' | 'STANDARD' } | null>(null);
   const [isKiosk, setIsKiosk] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [isScannerStarted, setIsScannerStarted] = useState(false);
@@ -100,10 +101,20 @@ export default function Scanner() {
       }
     }
     
-    if (accessCodes.includes(decodedText)) {
-      setResult({ status: 'VALID', code: decodedText });
+    const cleanText = decodedText.trim();
+    console.log("SCAN_DEBUG: Decoded text:", `[${decodedText}]`);
+    console.log("SCAN_DEBUG: Cleaned text:", `[${cleanText}]`);
+    console.log("SCAN_DEBUG: VIP Codes Sample:", vipCodes.slice(0, 3));
+    
+    if (vipCodes.includes(cleanText)) {
+      console.log("SCAN_DEBUG: MATCH FOUND (VIP)");
+      setResult({ status: 'VALID', code: cleanText, type: 'VIP' });
+    } else if (accessCodes.includes(cleanText)) {
+      console.log("SCAN_DEBUG: MATCH FOUND (STANDARD)");
+      setResult({ status: 'VALID', code: cleanText, type: 'STANDARD' });
     } else {
-      setResult({ status: 'INVALID' });
+      console.warn("SCAN_DEBUG: NO MATCH FOUND");
+      setResult({ status: 'INVALID', code: cleanText || "EMPTY" });
     }
   };
 
@@ -113,44 +124,75 @@ export default function Scanner() {
   };
 
   if (result) {
+    const isVIP = result.type === 'VIP';
     return (
-      <div className={`flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 transition-all duration-500 ${result.status === 'VALID' ? 'bg-emerald-600' : 'bg-rose-600'}`}>
-        <div className="max-w-xl w-full bg-white rounded-[3rem] p-12 shadow-2xl text-center border-4 border-white animate-in zoom-in duration-500">
-          <div className="flex justify-center mb-8">
-            {result.status === 'VALID' ? (
-              <div className="bg-emerald-100 p-6 rounded-full">
-                <CheckCircle2 className="w-24 h-24 text-emerald-600" />
-              </div>
-            ) : (
-              <div className="bg-rose-100 p-6 rounded-full">
-                <XCircle className="w-24 h-24 text-rose-600" />
+      <div className={`flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 transition-all duration-1000 ${
+        result.status === 'INVALID' ? 'bg-rose-600' : isVIP ? 'bg-[#050505] overflow-hidden' : 'bg-emerald-600'
+      }`}>
+        {/* VIP Background Sparkles */}
+        {isVIP && result.status === 'VALID' && (
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-amber-200 rounded-full animate-pulse"></div>
+            <div className="absolute top-3/4 left-1/3 w-1 h-1 bg-amber-400 rounded-full animate-ping"></div>
+            <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-white rounded-full animate-pulse blur-sm"></div>
+            <div className="absolute bottom-1/4 right-1/3 w-2 h-2 bg-amber-500 rounded-full animate-bounce"></div>
+          </div>
+        )}
+
+        <div className={`max-w-xl w-full rounded-[3.5rem] p-1 shadow-2xl animate-in zoom-in duration-700 relative z-10 ${
+          isVIP ? 'bg-gradient-to-br from-amber-600 via-amber-400 to-amber-700' : 'bg-white'
+        }`}>
+          <div className={`rounded-[3.4rem] p-12 text-center h-full w-full ${
+            isVIP ? 'bg-zinc-950/90 backdrop-blur-xl' : 'bg-white'
+          }`}>
+            <div className="flex justify-center mb-8">
+              {result.status === 'VALID' ? (
+                <div className={`${isVIP ? 'bg-amber-950/50 border border-amber-500/30' : 'bg-emerald-100'} p-8 rounded-full relative group animate-in zoom-in spin-in-12 duration-1000`}>
+                  {isVIP ? <Crown className="w-24 h-24 text-amber-500 drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]" /> : <CheckCircle2 className="w-24 h-24 text-emerald-600" />}
+                  {isVIP && (
+                    <div className="absolute -top-1 -right-1 bg-amber-500 text-white text-[11px] font-black px-3 py-1.5 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.5)]">VIP ACCESS</div>
+                  )}
+                </div>
+              ) : (
+                <div className="bg-rose-100 p-8 rounded-full">
+                  <XCircle className="w-24 h-24 text-rose-600" />
+                </div>
+              )}
+            </div>
+            
+            <h2 className={`text-6xl font-serif mb-4 tracking-tighter ${
+              result.status === 'INVALID' ? 'text-rose-900' : isVIP ? 'text-white' : 'text-emerald-900'
+            }`} style={{ fontFamily: isVIP ? '"Prata", serif' : 'inherit' }}>
+              {result.status === 'INVALID' ? 'ACCESS DENIED' : isVIP ? 'AUTHENTICATED' : 'AUTHENTICATED'}
+            </h2>
+            <p className={`text-xl mb-10 font-medium ${isVIP ? 'text-zinc-500' : 'text-zinc-500'}`}>
+              Identity Verified: <span className={`font-mono px-3 py-1 rounded-lg ${isVIP ? 'bg-zinc-900 text-amber-500 border border-amber-900' : 'bg-zinc-100 text-zinc-900'}`}>{result.code}</span>
+            </p>
+
+            {result.status === 'VALID' && (
+              <div className={`rounded-[2.5rem] p-10 mb-10 border transition-all duration-1000 ${
+                isVIP ? 'bg-white/5 border-white/10 shadow-[inner_0_2px_10px_rgba(255,255,255,0.05)]' : 'bg-zinc-50 border-zinc-100'
+              }`}>
+                {!isVIP && <img src="/logo.png" alt="Logo" className="h-24 mx-auto mb-6 opacity-90 filter drop-shadow-md" />}
+                <p className={`font-black text-3xl uppercase tracking-widest ${isVIP ? 'text-amber-500' : 'text-zinc-900'}`}>
+                  {isVIP ? 'VIP GUEST' : 'Security Committee'}
+                </p>
+                <div className="h-0.5 w-12 bg-amber-500/30 mx-auto my-4"></div>
+                <p className={`font-bold uppercase tracking-[0.3em] text-[10px] ${isVIP ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                  APC Convention 2026
+                </p>
               </div>
             )}
+
+            <button
+              onClick={resetScanner}
+              className={`w-full py-6 rounded-2xl text-2xl font-black transition-all shadow-xl active:scale-95 text-white ${
+                result.status === 'INVALID' ? 'bg-rose-600 hover:bg-rose-700' : isVIP ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-900/40' : 'bg-emerald-600 hover:bg-emerald-700'
+              }`}
+            >
+              Scan Next Badge
+            </button>
           </div>
-          
-          <h2 className={`text-5xl font-black mb-4 ${result.status === 'VALID' ? 'text-emerald-900' : 'text-rose-900'}`}>
-            {result.status === 'VALID' ? 'AUTHENTICATED' : 'ACCESS DENIED'}
-          </h2>
-          <p className="text-xl text-zinc-500 mb-10 font-medium">
-            Code: <span className="font-mono bg-zinc-100 px-3 py-1 rounded-lg text-zinc-900">{result.code || 'NULL'}</span>
-          </p>
-
-          {result.status === 'VALID' && (
-            <div className="bg-zinc-50 rounded-3xl p-8 mb-10 border border-zinc-100">
-              <img src="/logo.png" alt="APC Logo" className="h-24 mx-auto mb-6 opacity-90" />
-              <p className="font-black text-2xl text-zinc-900 uppercase">Security Committee</p>
-              <p className="text-zinc-400 font-bold uppercase tracking-widest">APC Convention 2026</p>
-            </div>
-          )}
-
-          <button
-            onClick={resetScanner}
-            className={`w-full py-6 rounded-2xl text-2xl font-black transition-all shadow-lg active:scale-95 ${
-              result.status === 'VALID' ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : 'bg-rose-600 hover:bg-rose-700 text-white'
-            }`}
-          >
-            Scan Next Badge
-          </button>
         </div>
       </div>
     );
@@ -223,7 +265,30 @@ export default function Scanner() {
                   {isScannerStarted ? 'Webcam Active' : 'Starting System...'}
                 </span>
               </div>
-              <p className="text-white/40 text-sm font-medium">Position the badge QR code clearly within the scanning frame</p>
+              <p className="text-white/40 text-sm font-medium mb-8">Position the badge QR code clearly within the scanning frame</p>
+              <div className="text-[9px] text-white/20 font-mono tracking-tighter">ENGINE_VER: 1.2.0-VIP-REFIX</div>
+
+              {/* Secret Admin Manual Entry for Testing */}
+              {window.location.search.includes('admin=true') && (
+                <div className="mt-4 p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
+                  <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-4">Admin Debug: Manual Code Entry</p>
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    const input = (e.target as any).code.value;
+                    if (input) handleScan(input);
+                  }} className="flex gap-2">
+                    <input 
+                      name="code"
+                      type="text" 
+                      placeholder="Enter code (e.g. VIP-XXXX-XXXX)" 
+                      className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                    />
+                    <button type="submit" className="bg-white text-black px-4 py-2 rounded-xl font-bold text-xs hover:bg-zinc-200 transition-colors">
+                      TEST
+                    </button>
+                  </form>
+                </div>
+              )}
             </div>
           </div>
         </div>
