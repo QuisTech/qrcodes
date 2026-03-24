@@ -26,7 +26,7 @@ export default function Generator() {
           onClick={() => { setCategory('vip'); setCodeIndex(0); }}
           className={`flex items-center gap-3 px-8 py-3 rounded-[1.5rem] font-black transition-all ${isVIP ? 'bg-amber-600 text-white shadow-xl scale-105' : 'text-zinc-400 hover:bg-zinc-50'}`}
         >
-          <Crown className="w-5 h-5" /> VIP Premium
+          <Crown className="w-5 h-5 transition-transform group-hover:rotate-12" /> VIP Premium
         </button>
       </div>
       
@@ -59,13 +59,12 @@ export default function Generator() {
         >
           <div className={`rounded-[3.4rem] h-full w-full p-10 flex flex-col items-center overflow-hidden relative ${isVIP ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
             {/* QR Code Segment - NOW AT TOP */}
-            <div className={`p-6 rounded-[2.5rem] mb-8 relative transition-all duration-1000 overflow-hidden ${isVIP ? 'bg-[#0f0f0f] border border-white/5' : 'bg-zinc-50 shadow-inner'}`}>
-              {isVIP && <div className="absolute inset-0 bg-amber-500/5 blur-xl"></div>}
+            <div className={`p-6 rounded-[2.5rem] mb-8 relative transition-all duration-1000 overflow-hidden ${isVIP ? 'bg-white border border-white/5 shadow-inner' : 'bg-zinc-50 shadow-inner'}`}>
               <QRCodeCanvas 
                 value={currentCode} 
                 size={220} 
                 level="H" 
-                fgColor={isVIP ? '#f59e0b' : '#000000'}
+                fgColor={isVIP ? '#000000' : '#000000'}
                 bgColor="transparent"
               />
               {isVIP && (
