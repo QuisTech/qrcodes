@@ -46,7 +46,7 @@ export default function App() {
               onClick={() => setView('vip-print')} 
               className={`px-4 py-2 rounded-xl transition-all font-bold ${view === 'vip-print' ? 'bg-amber-600 text-white shadow-md' : 'text-amber-600 hover:bg-amber-50'}`}
             >
-              VIP Print (250)
+              VIP Print (300)
             </button>
           </>
         ) : (
