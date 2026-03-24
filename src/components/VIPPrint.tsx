@@ -21,58 +21,37 @@ export default function VIPPrint() {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 print:grid-cols-2 print:gap-14">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 print:grid-cols-3 print:gap-4">
           {vipCodes.map((code) => (
             <div 
               key={code} 
-              className="relative aspect-[1/1.4] w-full bg-white rounded-[3.5rem] p-1 overflow-hidden shadow-2xl print:shadow-none break-inside-avoid-page mb-10"
+              className="border-2 border-zinc-100 rounded-[2rem] p-6 flex flex-col items-center shadow-sm print:shadow-none print:border-zinc-200 break-inside-avoid mb-4 bg-white"
             >
-              {/* Solid black frame */}
-              <div className="absolute inset-0 p-[3px] rounded-[3.5rem] bg-zinc-900">
-                <div className="w-full h-full bg-white rounded-[3.4rem]"></div>
+              <div className="bg-zinc-50 p-3 rounded-xl mb-4">
+                <QRCodeCanvas 
+                  value={code} 
+                  size={160} 
+                  level="H" 
+                  fgColor="#000000"
+                  bgColor="transparent"
+                />
               </div>
 
-              <div className="relative h-full flex flex-col items-center p-8 pt-12">
-                {/* QR Code Segment - AT TOP */}
-                <div className="relative group mb-10">
-                  <div className="absolute inset-0 bg-zinc-100 blur-3xl rounded-full scale-110"></div>
-                  <div className="relative p-5 bg-white rounded-[2.5rem] border border-zinc-100 shadow-sm">
-                    <QRCodeCanvas 
-                      value={code} 
-                      size={180} 
-                      level="H"
-                      fgColor="#000000"
-                      bgColor="transparent"
-                    />
-                    {/* Corner accents */}
-                    <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-zinc-900 rounded-tl-xl"></div>
-                    <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-zinc-900 rounded-br-xl"></div>
-                  </div>
-                </div>
-
-                {/* VIP Header */}
-                <div className="text-center mb-10">
-                  <h2 className="text-4xl font-serif text-zinc-900 font-bold tracking-tighter mb-1" style={{ fontFamily: '"Prata", serif' }}>
+              <div className="text-center w-full">
+                <div className="mb-4">
+                  <h2 className="text-xl font-serif text-zinc-900 font-bold tracking-tighter leading-none" style={{ fontFamily: '"Prata", serif' }}>
                     VIP
                   </h2>
-                  <div className="text-zinc-500 font-bold tracking-[0.3em] text-[10px] mb-3 uppercase italic">Access Granted</div>
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="h-[1px] w-6 bg-zinc-200"></div>
-                    <div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div>
-                    <div className="h-[1px] w-6 bg-zinc-200"></div>
-                  </div>
+                  <p className="text-[8px] text-zinc-400 font-bold uppercase tracking-[0.2em] mt-1">Access Granted</p>
                 </div>
 
-                <div className="mt-auto text-center w-full">
-                  <div className="mb-6 flex flex-col items-center">
-                    <Crown className="w-6 h-6 text-zinc-300 mb-2" />
-                    <p className="text-[9px] text-zinc-400 font-bold uppercase tracking-[0.4em]">APC Convention 2026</p>
-                  </div>
-                  
-                  <div className="relative px-8 py-3.5 bg-zinc-50 rounded-2xl border border-zinc-100">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-zinc-900"></div>
-                    <span className="text-xs font-mono text-zinc-900 tracking-[0.3em] font-black uppercase">{code}</span>
-                  </div>
+                <div className="mb-4">
+                  <p className="text-[10px] font-black text-zinc-900 uppercase leading-none mb-1">OFFICIAL VIP GUEST</p>
+                  <p className="text-[8px] text-zinc-400 font-bold uppercase">APC Convention 2026</p>
+                </div>
+
+                <div className="bg-zinc-100 px-3 py-1 rounded-md inline-block">
+                  <span className="text-[10px] font-mono font-bold text-zinc-600">{code}</span>
                 </div>
               </div>
             </div>
@@ -97,7 +76,7 @@ export default function VIPPrint() {
             background: #fff !important;
             -webkit-print-color-adjust: exact;
           }
-          .break-inside-avoid-page {
+          .break-inside-avoid {
             break-inside: avoid !important;
             page-break-inside: avoid !important;
           }

@@ -52,14 +52,14 @@ export default function Generator() {
 
         {/* The Badge Card */}
         <div 
-          className={`w-full max-w-md rounded-[3.5rem] p-1.5 shadow-2xl transition-all duration-700 ${isVIP ? 'hover:shadow-amber-500/30' : 'hover:shadow-zinc-200/50'}`}
+          className={`w-full max-w-md rounded-[3.5rem] p-1.5 shadow-2xl transition-all duration-700 ${isVIP ? 'hover:shadow-zinc-200/50' : 'hover:shadow-zinc-200/50'}`}
           style={{
-            background: isVIP ? 'linear-gradient(135deg, #846210 0%, #D4AF37 50%, #846210 100%)' : '#f4f4f5'
+            background: isVIP ? '#f4f4f5' : '#f4f4f5'
           }}
         >
-          <div className={`rounded-[3.4rem] h-full w-full p-10 flex flex-col items-center overflow-hidden relative ${isVIP ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
+          <div className={`rounded-[3.4rem] h-full w-full p-10 flex flex-col items-center overflow-hidden relative ${isVIP ? 'bg-white' : 'bg-white'}`}>
             {/* QR Code Segment - NOW AT TOP */}
-            <div className={`p-6 rounded-[2.5rem] mb-8 relative transition-all duration-1000 overflow-hidden ${isVIP ? 'bg-white border border-white/5 shadow-inner' : 'bg-zinc-50 shadow-inner'}`}>
+            <div className={`p-6 rounded-[2.5rem] mb-8 relative transition-all duration-1000 overflow-hidden ${isVIP ? 'bg-zinc-50 shadow-inner' : 'bg-zinc-50 shadow-inner'}`}>
               <QRCodeCanvas 
                 value={currentCode} 
                 size={220} 
@@ -67,30 +67,24 @@ export default function Generator() {
                 fgColor={isVIP ? '#000000' : '#000000'}
                 bgColor="transparent"
               />
-              {isVIP && (
-                <>
-                  <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-amber-600 rounded-tl-xl opacity-40"></div>
-                  <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-amber-600 rounded-br-xl opacity-40"></div>
-                </>
-              )}
             </div>
 
             {/* Header Content - NOW BELOW QR */}
             <div className="text-center mb-10 w-full animate-in fade-in slide-in-from-top duration-700">
-              <h2 className={`text-[10px] font-black uppercase tracking-[0.4em] mb-4 ${isVIP ? 'text-amber-500' : 'text-zinc-400'}`}>
+              <h2 className={`text-[10px] font-black uppercase tracking-[0.4em] mb-4 ${isVIP ? 'text-zinc-400' : 'text-zinc-400'}`}>
                 {isVIP ? 'OFFICIAL VIP GUEST' : 'SECURITY COMMITTEE'}
               </h2>
               
               {isVIP ? (
                 <div className="relative">
-                  <h1 className="text-5xl font-serif text-white font-bold tracking-tight mb-1" style={{ fontFamily: '"Prata", serif' }}>
+                  <h1 className="text-5xl font-serif text-zinc-900 font-bold tracking-tight mb-1" style={{ fontFamily: '"Prata", serif' }}>
                     VIP
                   </h1>
-                  <div className="text-amber-500 font-medium tracking-[0.2em] text-[11px] mb-4 uppercase">Access Granted</div>
-                  <div className="flex items-center justify-center gap-2">
-                    <div className="h-[1px] w-8 bg-amber-900"></div>
-                    <div className="w-1.5 h-1.5 bg-amber-500 rotate-45"></div>
-                    <div className="h-[1px] w-8 bg-amber-900"></div>
+                  <div className="text-zinc-500 font-bold tracking-[0.2em] text-[11px] mb-4 uppercase italic">Access Granted</div>
+                  <div className="flex items-center justify-center gap-2 text-zinc-200">
+                    <div className="h-[1px] w-8 bg-current"></div>
+                    <div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div>
+                    <div className="h-[1px] w-8 bg-current"></div>
                   </div>
                 </div>
               ) : (
@@ -100,12 +94,12 @@ export default function Generator() {
 
             {/* Bottom Footer Section */}
             <div className="text-center w-full mt-auto">
-              <p className={`text-[10px] font-black uppercase tracking-widest mb-6 ${isVIP ? 'text-amber-900/40' : 'text-zinc-300'}`}>
+              <p className={`text-[10px] font-black uppercase tracking-widest mb-6 ${isVIP ? 'text-zinc-300' : 'text-zinc-300'}`}>
                 APC Convention 2026
               </p>
               
-              <div className={`relative px-8 py-4 rounded-2xl border transition-all ${isVIP ? 'bg-zinc-900/50 text-white border-white/5 shadow-2xl' : 'bg-zinc-900 text-white border-zinc-800 shadow-md'}`}>
-                {isVIP && <div className="absolute top-0 left-0 w-1 h-full bg-amber-600"></div>}
+              <div className={`relative px-8 py-4 rounded-2xl border transition-all ${isVIP ? 'bg-zinc-50 text-zinc-900 border-zinc-100 shadow-sm' : 'bg-zinc-900 text-white border-zinc-800 shadow-md'}`}>
+                {isVIP && <div className="absolute top-0 left-0 w-1 h-full bg-zinc-900"></div>}
                 <span className="font-mono text-xl font-bold tracking-[0.2em]">{currentCode}</span>
               </div>
             </div>
@@ -121,7 +115,7 @@ export default function Generator() {
           <div className="flex gap-4 w-full max-w-md">
             <button 
               onClick={() => window.print()} 
-              className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg transition-all shadow-xl active:scale-95 text-white ${isVIP ? 'bg-amber-600 hover:bg-amber-700' : 'bg-zinc-900 hover:bg-zinc-800'}`}
+              className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg transition-all shadow-xl active:scale-95 text-white ${isVIP ? 'bg-zinc-900 hover:bg-black' : 'bg-zinc-900 hover:bg-zinc-800'}`}
             >
               <Printer className="w-6 h-6" /> Export Badge
             </button>
