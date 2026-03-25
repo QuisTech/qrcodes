@@ -266,29 +266,27 @@ export default function Scanner() {
                 </span>
               </div>
               <p className="text-white/40 text-sm font-medium mb-8">Position the badge QR code clearly within the scanning frame</p>
-              <div className="text-[9px] text-white/20 font-mono tracking-tighter">ENGINE_VER: 1.2.0-VIP-REFIX</div>
+              <div className="text-[9px] text-white/20 font-mono tracking-tighter">ENGINE_VER: 1.3.0-PUBLIC-ENTRY</div>
 
-              {/* Secret Admin Manual Entry for Testing */}
-              {window.location.search.includes('admin=true') && (
-                <div className="mt-4 p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
-                  <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-4">Admin Debug: Manual Code Entry</p>
-                  <form onSubmit={(e) => {
-                    e.preventDefault();
-                    const input = (e.target as any).code.value;
-                    if (input) handleScan(input);
-                  }} className="flex gap-2">
-                    <input 
-                      name="code"
-                      type="text" 
-                      placeholder="Enter code (e.g. VIP-XXXX-XXXX)" 
-                      className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors"
-                    />
-                    <button type="submit" className="bg-white text-black px-4 py-2 rounded-xl font-bold text-xs hover:bg-zinc-200 transition-colors">
-                      TEST
-                    </button>
-                  </form>
-                </div>
-              )}
+              {/* System Fallback Manual Entry for Everyone */}
+              <div className="mt-4 p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
+                <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-4">System Fallback: Manual Entry</p>
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  const input = (e.target as any).code.value;
+                  if (input) handleScan(input);
+                }} className="flex gap-2">
+                  <input 
+                    name="code"
+                    type="text" 
+                    placeholder="Enter code (e.g. VIP-XXXX-XXXX)" 
+                    className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-white font-mono text-sm focus:outline-none focus:border-amber-500 transition-colors"
+                  />
+                  <button type="submit" className="bg-white text-black px-4 py-2 rounded-xl font-bold text-xs hover:bg-zinc-200 transition-colors">
+                    VERIFY
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
